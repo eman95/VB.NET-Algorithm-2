@@ -1,5 +1,6 @@
 Module Program
     Sub Main(args As String())
+        Console.Title = "Algorithm Task 2"
         Dim taskList As New List(Of String)
 
         For i = 1 To 10
