@@ -12,7 +12,7 @@ Module Program
 
         Do
             Console.Clear()
-
+            writeToConsole(New String() {"Algorithm Task 2"})
             writeToConsole(taskList.ToArray())
 
             Dim taskNumber As Integer
@@ -95,25 +95,37 @@ Module Program
         End If
     End Sub
 
-    Sub task1()
-        writeToConsole(New String() {"Hello world"})
-    End Sub
+    Function task1()
+        Dim element As Integer() = {1, 4, 8, 12, 2, 6, 27, 15, 22}
 
-    Sub task2()
-        writeToConsole(New String() {"Please enter your name:"})
-        writeToConsole(New String() {"Hello world, " & Console.ReadLine()})
-    End Sub
+        writeToConsole(New String() {"Array: " & String.Join(", ", element), "Largest value in array: " & element.Max})
 
-    Sub task3()
-        writeToConsole(New String() {"Please enter your name:"})
-        Dim name = Console.ReadLine()
+        Return element.Max
+    End Function
 
-        If name.ToLower = "alice" Or name.ToLower = "bob" Then
-            writeToConsole(New String() {"Hello world, " & name})
-        Else
-            task1()
-        End If
-    End Sub
+    Function task2()
+        Dim element As Integer() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+        Dim elementReversed As Integer()
+
+        elementReversed = element.Reverse.AsEnumerable.ToArray
+
+        writeToConsole(New String() {"Array: " & String.Join(", ", element), "Reversed Array: " & String.Join(", ", elementReversed)})
+
+        Return elementReversed
+    End Function
+
+    Function task3()
+        Dim element As Integer() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+        Dim randomNumber As Integer = Rnd() * 15 + 1
+
+        Dim numberOccurred As Boolean = False
+
+        numberOccurred = element.Contains(randomNumber)
+
+        writeToConsole(New String() {"Array: " & String.Join(", ", element), "Random Number: " & randomNumber, vbCrLf, IIf(numberOccurred, "Number occurred in array", "Number did not occur in array")})
+
+        Return numberOccurred
+    End Function
 
     Sub task4()
         Dim isValid As Boolean
