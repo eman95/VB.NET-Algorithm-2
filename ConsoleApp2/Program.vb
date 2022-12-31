@@ -1,3 +1,5 @@
+Imports System.Runtime.Intrinsics
+
 Module Program
     Sub Main(args As String())
         Console.Title = "Algorithm Task 2"
@@ -96,233 +98,253 @@ Module Program
         End If
     End Sub
 
-    Function task1()
-        Dim element As Integer() = {1, 4, 8, 12, 2, 6, 27, 15, 22}
+    Function generateNumberList(listType As String, listCount As Integer, Optional randomLimit As Integer = 50, Optional startWithZero As Boolean = False)
+        Dim element As New List(Of Integer)
 
-        writeToConsole(New String() {"Array: " & String.Join(", ", element), "Largest value in array: " & element.Max})
+        If startWithZero Then
+            element.Add(0)
+        Else
+            listCount += 1
+        End If
 
+        Dim i As Integer = 1
+
+        Select Case listType.ToLower
+            Case "linear"
+                While i < listCount
+                    element.Add(i)
+                    i += 1
+                End While
+
+            Case "random"
+                While i < listCount
+                    Dim randomNumber As Integer = Rnd() * randomLimit + 1
+                    element.Add(randomNumber)
+
+                    i += 1
+                End While
+        End Select
+
+        Return element
+    End Function
+
+    Sub task1()
+        Dim element As New List(Of Integer)
+        element = generateNumberList("random", 10)
+
+        writeToConsole(New String() {"List: " & String.Join(", ", element), "Largest value in List: " & task1_func(element)})
+    End Sub
+
+    Function task1_func(element As List(Of Integer)) As Integer
         Return element.Max
     End Function
 
-    Function task2()
-        Dim element As Integer() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-        Dim elementReversed As Integer()
+    Sub task2()
+        Dim element As New List(Of Integer)
+        element = generateNumberList("linear", 10)
 
-        elementReversed = element.Reverse.AsEnumerable.ToArray
+        writeToConsole(New String() {"List: " & String.Join(", ", element)})
 
-        writeToConsole(New String() {"Array: " & String.Join(", ", element), "Reversed Array: " & String.Join(", ", elementReversed)})
+        task2_func(element)
 
-        Return elementReversed
-    End Function
+        writeToConsole(New String() {"Reversed List: " & String.Join(", ", element)})
+    End Sub
 
-    Function task3()
-        Dim element As Integer() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+    Sub task2_func(ByRef element As List(Of Integer))
+        element.Reverse()
+    End Sub
+
+    Sub task3()
+        Dim element As New List(Of Integer)
         Dim randomNumber As Integer = Rnd() * 15 + 1
+        element = generateNumberList("linear", 10)
 
+        writeToConsole(New String() {"List: " & String.Join(", ", element), "Random Number: " & randomNumber, IIf(task3_func(element, randomNumber), "Number occurred in List", "Number did not occur in List")})
+    End Sub
+
+    Function task3_func(element As List(Of Integer), randomNumber As Integer) As Boolean
         Dim numberOccurred As Boolean = False
-
         numberOccurred = element.Contains(randomNumber)
-
-        writeToConsole(New String() {"Array: " & String.Join(", ", element), "Random Number: " & randomNumber, vbCrLf, IIf(numberOccurred, "Number occurred in array", "Number did not occur in array")})
 
         Return numberOccurred
     End Function
 
     Sub task4()
-        Dim isValid As Boolean
-        Dim n As Integer
-        Dim sum As Integer = 0
+        Dim element As New List(Of Integer)
+        element = generateNumberList("random", 10)
 
-        Do
-            writeToConsole(New String() {"Please input a number more than 1:"})
-            Dim input = Console.ReadLine()
+        writeToConsole(New String() {"List: " & String.Join(", ", element), "Element in Odd Positions: " & String.Join(", ", task4_func(element))})
+    End Sub
 
-            If IsNumeric(input) Then
-                If input > 1 Then
-                    isValid = True
-                    n = CInt(input)
-                End If
+    Function task4_func(element As List(Of Integer)) As List(Of Integer)
+        Dim oddElement As New List(Of Integer)
+
+        For i As Integer = 0 To element.Count - 1
+            If Not i Mod 2 = 0 Then
+                oddElement.Add(element(i))
             End If
-
-        Loop While Not isValid
-
-        For i = 1 To n
-            sum += i
         Next
 
-        writeToConsole(New String() {"The sum is", sum})
-    End Sub
+        Return oddElement
+    End Function
 
     Sub task5()
-        Dim isValid As Boolean
-        Dim n As Integer
-        Dim sum As Integer = 0
+        Dim element As New List(Of Integer)
+        element = generateNumberList("random", 10)
 
-        Do
-            writeToConsole(New String() {"Please input a number more than 1:"})
-            Dim input = Console.ReadLine()
-
-            If IsNumeric(input) Then
-                If input > 1 Then
-                    isValid = True
-                    n = CInt(input)
-                End If
-            End If
-
-        Loop While Not isValid
-
-        For i = 1 To n
-            If i Mod 3 = 0 Or i Mod 5 = 0 Then
-                sum += i
-            End If
-        Next
-
-        writeToConsole(New String() {"The sum of numbers that are multiples of 3 and 5 is", sum})
+        writeToConsole(New String() {"List: " & String.Join(", ", element), "Sum: " & String.Join(", ", task5_func(element))})
     End Sub
+    Function task5_func(element As List(Of Integer)) As Integer
+        Dim sum As New Integer
+        sum = element.Sum()
+
+        Return sum
+    End Function
 
     Sub task6()
-        Dim isValid As Boolean
-        Dim n As Integer
+        Dim stringList As New List(Of String)({"Visual Basic", "Racecar", "Task", "Civic", "People", "Noon", "Algorithm", "Pop", "List", "Rotator", "Level"})
+        Dim randomNumber As Integer = Rnd() * (stringList.Count - 1)
 
-
-        Do
-            writeToConsole(New String() {"Please input a number more than 1:"})
-            Dim input = Console.ReadLine()
-
-            If IsNumeric(input) Then
-                If input > 1 Then
-                    isValid = True
-                    n = CInt(input)
-                End If
-            End If
-
-        Loop While Not isValid
-
-        Dim calcTask As Integer
-        isValid = False
-
-        Do
-            writeToConsole(New String() {"Please input calculation method:", "1 - Sum", "2 - Product"})
-            Dim input = Console.ReadLine()
-
-            If IsNumeric(input) Then
-                If input = 1 Or input = 2 Then
-                    isValid = True
-                    calcTask = CInt(input)
-                End If
-            End If
-
-        Loop While Not isValid
-
-        Dim calcResult As Integer = 0
-
-        If calcTask = 1 Then
-            For i = 1 To n
-                calcResult += i
-            Next
-
-            writeToConsole(New String() {"The sum of numbers from 1 to " & n & " is", calcResult})
-        Else
-            calcResult = 1
-            For i = 1 To n
-                calcResult *= i
-            Next
-
-            writeToConsole(New String() {"The product of numbers from 1 to " & n & " is", calcResult})
-        End If
+        writeToConsole(New String() {"String: " & stringList(randomNumber), IIf(task6_func(stringList, randomNumber), "String is Palindrome", "String is not Palindrome")})
     End Sub
 
-    Sub task7()
-        Dim isValid As Boolean
-        Dim n As Integer
-        Dim calcResultList As New List(Of String)
+    Function task6_func(stringList As List(Of String), randomNumber As Integer) As Boolean
+        Dim isPalindrome As Boolean = False
 
-        Do
-            writeToConsole(New String() {"Please input a number:"})
-            Dim input = Console.ReadLine()
+        If stringList(randomNumber).ToLower = StrReverse(stringList(randomNumber).ToLower) Then
+            isPalindrome = True
+        End If
 
-            If IsNumeric(input) Then
-                isValid = True
-                n = CInt(input)
-            End If
+        Return isPalindrome
+    End Function
 
-        Loop While Not isValid
+    Function task7()
+        Dim element As New List(Of Integer)
+        element = generateNumberList("random", 10)
 
-        For i = 1 To 12
-            calcResultList.Add(i & " x " & n & " = " & i * n)
+        writeToConsole(New String() {"List: " & String.Join(", ", element), "Sum using for-loop: " & task7_ForLoop(element), "Sum using while-loop: " & task7_WhileLoop(element), "Sum using recursion: " & task7_Recursion(element, 0)})
+
+        Return element.Sum()
+    End Function
+
+    Function task7_ForLoop(element As List(Of Integer)) As Integer
+        Dim sumFor As New Integer
+
+        For Each num As Integer In element
+            sumFor += num
         Next
 
-        writeToConsole(calcResultList.ToArray())
-    End Sub
+        Return sumFor
+    End Function
+
+    Function task7_WhileLoop(element As List(Of Integer)) As Integer
+        Dim sumWhile As New Integer
+
+        Dim hasNext As Boolean = True
+        Dim i As Integer = 0
+
+        While hasNext
+            sumWhile += element(i)
+            i += 1
+
+            If element.Count = i Then
+                hasNext = False
+            End If
+        End While
+
+        Return sumWhile
+    End Function
+
+    Function task7_Recursion(element As List(Of Integer), index As Integer) As Integer
+        If index = element.Count - 1 Then
+            Return element(index)
+        Else
+            Return element(index) + task7_Recursion(element, index + 1)
+        End If
+    End Function
 
     Sub task8()
-        Dim primeNumberList As New List(Of String)
+        Dim perfectSquares As New List(Of Integer)
 
-        For i = 0 To 10000
-            Dim checkPrime As Integer = 1
-            For j = 2 To i - 1
-                If i Mod j = 0 Then
-                    checkPrime = 0
-                    Exit For
-                Else
-                    checkPrime = 1
-                End If
-            Next
-            If checkPrime = 1 And Not i < 2 Then
-                primeNumberList.Add(i)
-            End If
+        Dim square As Func(Of Integer, Integer) = Function(x) x * x
+        perfectSquares = on_all(square)
+
+        writeToConsole(New String() {"Perfect Squares: " & String.Join(", ", perfectSquares)})
+    End Sub
+
+    Function on_all(func As Func(Of Integer, Integer)) As List(Of Integer)
+        Dim resultList As New List(Of Integer)
+
+        For i As Integer = 1 To 20
+            resultList.Add(func(i))
         Next
 
-        writeToConsole(New String() {"The prime numbers from 0 to 1000 are ", Join(primeNumberList.ToArray(), ", ")})
-    End Sub
+        Return resultList
+    End Function
 
-    Sub task9()
-        Dim Generator As Random = New Random()
-        Dim randomNumber = Generator.Next(1, 100 + 1)
-        Dim isCorrect As Boolean = False
-        Dim numberTried As New List(Of String)
+    Function task9()
+        Dim element As New List(Of Integer)
+        Dim element2 As New List(Of String)
+        Dim resultList As New List(Of String)
 
-        Do
-            writeToConsole(New String() {"Please enter your guess between 1 - 100"})
-            Dim guessInput = Console.ReadLine()
+        element = generateNumberList("linear", 5)
+        element2 = New List(Of String)({"A", "B", "C", "D", "E"})
+        resultList = task9_func(element.ToArray(), element2.ToArray())
 
-            If IsNumeric(guessInput) Then
-                If guessInput = randomNumber Then
-                    writeToConsole(New String() {"Your guess is correct!"})
-                    isCorrect = True
-                Else
-                    If Not numberTried.Contains(guessInput) Then
-                        numberTried.Add(guessInput)
-                    End If
+        writeToConsole(New String() {"List1: " & String.Join(", ", element), "List2: " & String.Join(", ", element2), "Combined List: " & String.Join(", ", resultList)})
 
-                    If guessInput > randomNumber Then
-                        writeToConsole(New String() {"Your guess is higher than the value"})
-                    ElseIf guessInput < randomNumber Then
-                        writeToConsole(New String() {"Your guess is lower than the value"})
-                    End If
-                End If
+        Return resultList
+    End Function
+
+    Function task9_func(list1 As Array, list2 As Array)
+        Dim resultList As New List(Of String)
+
+        For Each item In list1
+            resultList.Add(item.ToString())
+        Next
+
+        For Each item In list2
+            resultList.Add(item.ToString())
+        Next
+
+        Return resultList
+    End Function
+
+    Function task10()
+        Dim element As New List(Of Integer)
+        Dim element2 As New List(Of String)
+        Dim resultList As New List(Of String)
+
+        element = generateNumberList("linear", 5)
+        element2 = New List(Of String)({"A", "B", "C", "D", "E"})
+        resultList = task10_func(element.ToArray(), element2.ToArray())
+
+        writeToConsole(New String() {"List1: " & String.Join(", ", element), "List2: " & String.Join(", ", element2), "Combined List: " & String.Join(", ", resultList)})
+
+        Return resultList
+    End Function
+
+    Function task10_func(list1 As Array, list2 As Array)
+        Dim resultList As New List(Of String)
+
+        Dim i As Integer = list1.Length - 1
+        Dim j As Integer = list2.Length - 1
+        Dim loopLimit = IIf(i >= j, i, j)
+        Dim loopIterator As Integer = 0
+
+        While loopIterator <= loopLimit
+            If loopIterator <= i Then
+                resultList.Add(list1(loopIterator).ToString())
             End If
 
-        Loop While Not isCorrect
-
-        writeToConsole(New String() {"Number of tries needed:", numberTried.Count})
-    End Sub
-
-    Sub task10()
-        Dim year = Today.Year
-        Dim leapYear As New List(Of String)
-
-        Do
-            year += 1
-
-            If Date.IsLeapYear(year) Then
-                leapYear.Add(year)
+            If loopIterator <= j Then
+                resultList.Add(list2(loopIterator).ToString())
             End If
 
-        Loop While leapYear.Count < 20
+            loopIterator += 1
+        End While
 
-        writeToConsole(New String() {"The next 20 leap years are", Join(leapYear.ToArray(), ", ")})
-
-    End Sub
+        Return resultList
+    End Function
 
 End Module
