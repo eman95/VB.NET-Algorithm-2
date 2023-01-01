@@ -216,14 +216,12 @@ Module Program
         Return isPalindrome
     End Function
 
-    Function task7()
+    Sub task7()
         Dim element As New List(Of Integer)
         element = generateNumberList("random", 10)
 
         writeToConsole(New String() {"List: " & String.Join(", ", element), "Sum using for-loop: " & task7_ForLoop(element), "Sum using while-loop: " & task7_WhileLoop(element), "Sum using recursion: " & task7_Recursion(element, 0)})
-
-        Return element.Sum()
-    End Function
+    End Sub
 
     Function task7_ForLoop(element As List(Of Integer)) As Integer
         Dim sumFor As New Integer
@@ -280,7 +278,7 @@ Module Program
         Return resultList
     End Function
 
-    Function task9()
+    Sub task9()
         Dim element As New List(Of Integer)
         Dim element2 As New List(Of String)
         Dim resultList As New List(Of String)
@@ -290,9 +288,7 @@ Module Program
         resultList = task9_func(element.ToArray(), element2.ToArray())
 
         writeToConsole(New String() {"List1: " & String.Join(", ", element), "List2: " & String.Join(", ", element2), "Combined List: " & String.Join(", ", resultList)})
-
-        Return resultList
-    End Function
+    End Sub
 
     Function task9_func(list1 As Array, list2 As Array)
         Dim resultList As New List(Of String)
@@ -308,7 +304,7 @@ Module Program
         Return resultList
     End Function
 
-    Function task10()
+    Sub task10()
         Dim element As New List(Of Integer)
         Dim element2 As New List(Of String)
         Dim resultList As New List(Of String)
@@ -318,9 +314,7 @@ Module Program
         resultList = task10_func(element.ToArray(), element2.ToArray())
 
         writeToConsole(New String() {"List1: " & String.Join(", ", element), "List2: " & String.Join(", ", element2), "Combined List: " & String.Join(", ", resultList)})
-
-        Return resultList
-    End Function
+    End Sub
 
     Function task10_func(list1 As Array, list2 As Array)
         Dim resultList As New List(Of String)
