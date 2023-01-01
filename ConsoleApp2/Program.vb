@@ -1,8 +1,6 @@
-Imports System.Runtime.Intrinsics
-
 Module Program
     Sub Main(args As String())
-        Console.Title = "Algorithm Task 2"
+        Console.Title = "VB.NET Algorithm Task 2"
         Dim taskList As New List(Of String)
 
         For i = 1 To 10
@@ -15,7 +13,7 @@ Module Program
 
         Do
             Console.Clear()
-            writeToConsole(New String() {"Algorithm Task 2"})
+            writeToConsole(New String() {"VB.NET Algorithm Task 2"})
             writeToConsole(taskList.ToArray())
 
             Dim taskNumber As Integer
